@@ -1,0 +1,4 @@
+PROJECT_NAME           = "ModernDBs tasks"
+OUTPUT_DIRECTORY       = docs
+INPUT                  = include/moderndbs/
+EXTRACT_ALL            = true

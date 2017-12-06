@@ -1,0 +1,55 @@
+# ---------------------------------------------------------------------------
+# MODERNDBS
+# ---------------------------------------------------------------------------
+
+stages:
+    - build
+    - test
+    - cleanup
+
+make:
+    stage: build
+    script: 
+        - mkdir -p build
+        - cd build
+        - cmake -DCMAKE_BUILD_TYPE=Debug ..
+        - make
+    artifacts:
+        paths:
+            - build/external_sort
+            - build/tester
+        expire_in: 1 hrs
+    cache:
+        key: "$CI_COMMIT_REF_SLUG"
+        paths:
+            - build/vendor/
+        policy: pull-push
+    tags:
+        - "clang-5.0"
+        - "cmake"
+        - "python3"
+
+tester:
+    stage: test
+    script:
+        - cd build
+        - ./tester --gtest_filter='-*Advanced*:*Multithread*'
+
+lint:
+    stage: test
+    script:
+        - mkdir -p build
+        - cd build
+        - cmake -DCMAKE_BUILD_TYPE=Debug ..
+        - make lint
+    cache:
+        key: "$CI_COMMIT_REF_SLUG"
+        paths:
+            - build/vendor/
+        policy: pull-push
+    tags:
+        - "clang-5.0"
+        - "clang-tidy-5.0"
+        - "cmake"
+        - "python3"
+    allow_failure: true
