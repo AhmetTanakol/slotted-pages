@@ -87,7 +87,7 @@ TEST(SegmentTest, SchemaSerialiseEmptySchema) {
         schema_segment_1.set_schema(std::move(schema));
         schema_segment_1.write();
     }
-    SchemaSegment schema_segment_2(102, buffer_manager);
+    SchemaSegment schema_segment_2(101, buffer_manager);
     schema_segment_2.read();
     ASSERT_NE(nullptr, schema_segment_2.get_schema());
     EXPECT_EQ(0, schema_segment_2.get_schema()->tables.size());
@@ -102,7 +102,7 @@ TEST(SegmentTest, SchemaSerialiseTPCHLight) {
         schema_segment_1.set_schema(std::move(schema_1));
         schema_segment_1.write();
     }
-    SchemaSegment schema_segment_2(104, buffer_manager);
+    SchemaSegment schema_segment_2(103, buffer_manager);
     schema_segment_2.read();
     ASSERT_NE(nullptr, schema_segment_2.get_schema());
     auto schema_2 = schema_segment_2.get_schema();
