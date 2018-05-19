@@ -275,7 +275,7 @@ TEST(SegmentTest, SPRecordResizeFirstRedirect) {
 
     // Read into buffer
     std::vector<char> buffer3;
-    buffer2.resize(120, 0x00);
+    buffer3.resize(120, 0x00);
     sp_segment.read(tid, reinterpret_cast<std::byte*>(buffer3.data()), 120);
 
     auto buffer3_equals = std::equal(buffer3.begin(), buffer3.begin() + 42, buffer1.begin());

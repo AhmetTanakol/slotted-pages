@@ -6,6 +6,7 @@
 #include "moderndbs/slotted_page.h"
 #include "moderndbs/schema.h"
 
+using Schema = moderndbs::schema::Schema;
 namespace moderndbs {
 
 class Segment {
@@ -26,6 +27,13 @@ class Segment {
 class SchemaSegment: public Segment {
     friend class SPSegment;
     friend class FSISegment;
+
+    protected:
+    /// schema of SchemaSegment
+    std::unique_ptr<Schema> schema;
+    uint16_t fsi_segment_id = 0;
+    uint16_t sp_segment_id = 0;
+    uint64_t number_of_sp = 0;
 
     public:
     /// Constructor
@@ -55,6 +63,8 @@ class SchemaSegment: public Segment {
 
     /// Get the number of slotted pages.
     uint64_t get_sp_count();
+
+    void increase_sp_count();
 
     /// Read the schema from disk.
     /// The schema segment should be structured as follows:
@@ -91,6 +101,8 @@ class FSISegment: public Segment {
     /// Find a page that has enough free space.
     /// @param[in] free_space       The required space.
     std::pair<bool, uint64_t> find(uint32_t required_space);
+
+    std::vector<uint8_t> bitmap;
 };
 
 class SPSegment: public moderndbs::Segment {
@@ -122,7 +134,7 @@ class SPSegment: public moderndbs::Segment {
 
     /// Resize a record.
     /// Resize should first check whether the new size still fits on the page.
-    /// If not, it yould create a redirect record.
+    /// If not, it should create a redirect record.
     /// @param[in] tid          The TID that identifies the record.
     /// @param[in] new_length   The new length of the record.
     void resize(TID tid, uint32_t new_length);

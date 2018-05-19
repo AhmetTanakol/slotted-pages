@@ -8,6 +8,7 @@
 #include <cstddef>
 #include <cassert>
 #include <iostream>
+#include <vector>
 
 namespace moderndbs {
 
@@ -41,8 +42,7 @@ struct SlottedPage {
 
     struct Slot {
         /// Constructor
-        Slot();
-
+        Slot() = default;
         /// The slot value
         /// c.f. chapter 3 page 13
         uint64_t value;
@@ -62,6 +62,15 @@ struct SlottedPage {
     /// This is also the reason why the constructor and compactify require the actual page size as argument.
     /// (The slotted page itself does not know how large it is)
     Header header;
+
+    std::vector<Slot> slots;
+    std::vector<std::byte> data;
+
+    // std::vector<Slot> slots;
+    // std::vector<std::byte> data;
+
+    uint16_t addSlot(uint64_t value);
+
 };
 
 }  // namespace moderndbs

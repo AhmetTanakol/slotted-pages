@@ -1,3 +1,6 @@
+Name: Tanakol, Ahmet
+
+Matriculation number: 03691681
 # Slotted Pages
 
 Implement the *schema segment*, the *free-space inventory* and the *slotted
